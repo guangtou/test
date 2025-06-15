@@ -1,4 +1,4 @@
-name: Mask input value example
+name: 安全处理 Input 示例
 
 on:
   workflow_dispatch:
@@ -6,12 +6,23 @@ on:
       secret_input:
         description: '敏感输入（例如 token）'
         required: true
+      environment:
+        description: '部署环境（如 staging、prod）'
+        required: true
+        default: 'staging'
 
 jobs:
   mask-input:
     runs-on: ubuntu-latest
+
     steps:
-      - name: 屏蔽输入参数
+      - name: 设置并屏蔽 input 值
         run: |
-          echo "::add-mask::${{ github.event.inputs.secret_input }}"
-          echo "输入值被屏蔽：${{ github.event.inputs.secret_input }}"
+          secret_value="${{ github.event.inputs.secret_input }}"
+          env_value="${{ github.event.inputs.environment }}"
+
+          echo "::add-mask::$secret_value"
+          echo "::add-mask::$env_value"
+
+          echo "✅ 敏感值已被屏蔽，环境为：$env_value"
+          echo "🚫 敏感输入：$secret_value"
