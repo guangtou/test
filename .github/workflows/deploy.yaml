@@ -18,6 +18,7 @@ jobs:
     steps:
       - name: 设置并屏蔽 input 值
         run: |
+          echo "::stop-commands::no_log"
           secret_value="${{ github.event.inputs.secret_input }}"
           env_value="${{ github.event.inputs.environment }}"
 
