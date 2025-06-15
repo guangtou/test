@@ -1,33 +1,17 @@
-name: 多参数示例
+name: Mask input value example
 
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: '部署环境（如 staging、production）'
+      secret_input:
+        description: '敏感输入（例如 token）'
         required: true
-        default: 'staging'
-      version:
-        description: '发布版本号（如 v1.2.3）'
-        required: false
-      app_name:
-        description: '应用名称'
-        required: true
-        default: 'my-app'
-      deploy_user:
-        description: '部署人'
-        required: false
-      region:
-        description: '部署区域（如 cn, us, eu）'
-        required: false
-        default: 'cn'
 
 jobs:
-  show-inputs:
+  mask-input:
     runs-on: ubuntu-latest
     steps:
-      - name: 打印所有输入参数（作为环境变量）
-        run: env
-
-      - name: 打印date
-        run: date
+      - name: 屏蔽输入参数
+        run: |
+          echo "::add-mask::${{ github.event.inputs.secret_input }}"
+          echo "输入值被屏蔽：${{ github.event.inputs.secret_input }}"
