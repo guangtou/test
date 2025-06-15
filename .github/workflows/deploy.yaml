@@ -1,0 +1,16 @@
+name: 使用 Secret 示例
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '环境名（公开）'
+        required: true
+        default: 'staging'
+
+jobs:
+  use-secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 显示输入参数
+        run: echo "环境：${{ github.event.inputs.environment }}"
